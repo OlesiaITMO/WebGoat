@@ -15,9 +15,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class OpenRedirectRealRedirect {
 
+  // @GetMapping("/OpenRedirect/realRedirect")
+  // public ModelAndView real(@RequestParam("url") String url) {
+  //   // Intentionally vulnerable: no validation
+  //   return new ModelAndView("redirect:" + url);
+  // }
   @GetMapping("/OpenRedirect/realRedirect")
   public ModelAndView real(@RequestParam("url") String url) {
-    // Intentionally vulnerable: no validation
-    return new ModelAndView("redirect:" + url);
+      String target =
+              switch (url) {
+                  case "/" -> "/";
+                  case "/WebGoat" -> "/WebGoat";
+                  case "/WebGoat/start.mvc" -> "/WebGoat/start.mvc";
+                  default -> "/";
+              };
+
+      return new ModelAndView("redirect:" + target);
   }
 }
